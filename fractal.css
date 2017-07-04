@@ -1,0 +1,10 @@
+body {
+  background-color: darkgrey;
+  margin: 0;
+  padding: 2em;
+}
+
+.center {
+  display:block;
+  margin: 0 auto;
+}
