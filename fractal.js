@@ -1,11 +1,11 @@
 let slider = document.getElementById('slider');
 let canvas = document.getElementById('canvas');
-let angle = Number(slider.value) - 135;
+let angle = Number(slider.value);
 let ctx = canvas.getContext('2d');
 
 function setup() {
-  slider.addEventListener('change', (event) => {
-    angle = Number(slider.value) -135;
+  slider.addEventListener('input', (event) => {
+    angle = Number(slider.value);
     render();
   });
 
@@ -30,27 +30,27 @@ function render() {
   let toX = width / 2;
   let toY = height - length;
 
-  ctx.moveTo(fromX, fromY);
-  ctx.lineTo(toX, toY);
-  branch(toX, toY, ctx, length, angle);
+  drawLine(fromX, fromY, toX, toY);
+  branch(toX, toY, ctx, length, -angle);
+  branch(toX, toY, ctx, length, angle + 180);
 
   ctx.stroke();
 }
 
 function branch(fromX, fromY, ctx, length, newAngle) {
-  ctx.moveTo(fromX, fromY);
   let toX = length * Math.cos(newAngle * Math.PI / 180) + fromX;
   let toY = length * Math.sin(newAngle * Math.PI / 180) + fromY;
-  ctx.lineTo(toX, toY);
   if(length > 4) {
+    drawLine(fromX, fromY, toX, toY);
     let newLength = length * 0.67;
-    ctx.save();
     branch(toX, toY, ctx, newLength, newAngle + angle);
-    ctx.restore();
-    ctx.save();
     branch(toX, toY, ctx, newLength, newAngle - angle);
-    ctx.restore();
   }
+}
+
+function drawLine(fromX, fromY, toX, toY) {
+  ctx.moveTo(fromX, fromY);
+  ctx.lineTo(toX, toY);
 }
 
 setup();
